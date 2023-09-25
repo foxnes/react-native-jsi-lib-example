@@ -1,18 +1,17 @@
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-fast-jsi-lib';
+import { testFcn } from 'react-native-fast-jsi-lib';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    testFcn();
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Text></Text>
     </View>
   );
 }

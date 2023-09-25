@@ -26,12 +26,20 @@ public class FastJsiLibModule extends ReactContextBaseJavaModule {
     System.loadLibrary("cpp");
   }
 
-  private static native double nativeMultiply(double a, double b);
+  private static native void initialize(long jsiPtr, String docDir);
 
-  // Example method
-  // See https://reactnative.dev/docs/native-modules-android
-  @ReactMethod
-  public void multiply(double a, double b, Promise promise) {
-    promise.resolve(nativeMultiply(a, b));
+  @ReactMethod(isBlockingSynchronousMethod = true)
+  public boolean install() {
+    try {
+      System.loadLibrary("cpp");
+      ReactApplicationContext context = getReactApplicationContext();
+      initialize(
+        context.getJavaScriptContextHolder().get(),
+        context.getFilesDir().getAbsolutePath()
+      );
+      return true;
+    } catch (Exception exception) {
+      return false;
+    }
   }
 }

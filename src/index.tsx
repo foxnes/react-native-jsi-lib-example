@@ -9,14 +9,20 @@ const LINKING_ERROR =
 const FastJsiLib = NativeModules.FastJsiLib
   ? NativeModules.FastJsiLib
   : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+    {},
+    {
+      get() {
+        throw new Error(LINKING_ERROR);
+      },
+    }
+  );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return FastJsiLib.multiply(a, b);
+FastJsiLib.install();
+
+declare global {
+  var testFcn: () => 0;
+};
+
+export function testFcn() {
+  console.log("js got: " + global.testFcn());
 }
